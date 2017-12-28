@@ -23,7 +23,7 @@ public class ConsumerApp implements MessageListener {
         try {
             LOGGER.info ("获取消息: " + txtMessage.getText());
 	    } catch (JMSException e) {
-	        LOGGER.info("error {}", e);
+	        LOGGER.info("error: {}", e);
 	    }
 	}
 

@@ -1,5 +1,7 @@
 package com.activemq.activemq_basic;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.jms.*;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -13,7 +15,7 @@ public class ProducerApp {
 	/* 
 	 * Producer/Consumer和 Pub/Sub的区别在于  
 	 * Producer/Consumer:
-	 * 		有多个Consumer时 Producer发送一个消息  随机(空闲的)只有其中一个Consumer才可以收到消息
+	 * 		有多个Consumer时 Producer发送一个消息  随机(空闲的)只有其中一个Consumer才可以收到消息, 一个消息只能消费一次 消费后消失
 	 * Pub/Sub:
 	 * 		有多个Sub(Consumer)时 Pub(Producer)发送一个消息 每个Sub(Consumer)都可以收到
 	 * */
@@ -45,9 +47,24 @@ public class ProducerApp {
             TextMessage message = session.createTextMessage("测试信息：" + i);
             //发送消息
             producer.send(message);
-            LOGGER.info("发送消息 测试信息： {}", i);
+            //LOGGER.info("发送消息 测试信息： {}", i);
         }
+        //发送消息
+        //writeTextMessage(session, producer,"测试文字转编码！！");
         //关闭连接
         conn.close();
+	}
+	
+    private static void writeTextMessage(Session session, MessageProducer messageProducer, String txt) throws JMSException {        
+    	try {            
+    		String iso = new String(txt.getBytes("GBK"), "ISO-8859-1");   
+    		TextMessage message = session.createTextMessage(); 
+    		message.setStringProperty("language", "java"); 
+    		message.setText(iso);
+    		messageProducer.send(message);
+    		//LOGGER.info("发送消息 测试信息： {}", message);
+    	} catch (UnsupportedEncodingException e) {            
+			e.printStackTrace();        
+    	}     
 	}
 }
