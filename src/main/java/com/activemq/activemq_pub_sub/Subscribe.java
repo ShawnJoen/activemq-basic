@@ -10,13 +10,7 @@ import javax.jms.*;
  * ActiveMq订阅者
  */
 public class Subscribe {
-	/* 
-	 * Producer/Consumer和 Pub/Sub的区别在于  
-	 * Producer/Consumer:
-	 * 		有多个Consumer时 Producer发送一个消息  随机(空闲的)只有其中一个Consumer才可以收到消息, 一个消息只能消费一次 消费后消失
-	 * Pub/Sub:
-	 * 		有多个Sub(Consumer)时 Pub(Producer)发送一个消息 每个Sub(Consumer)都可以收到
-	 * */
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(Subscribe.class);
 	private static final String BROKER_URL = ActiveMQConnection.DEFAULT_BROKER_URL;
     private static final String MQ_USERNAME = "";
